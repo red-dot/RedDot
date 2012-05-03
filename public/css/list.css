@@ -1,0 +1,124 @@
+body 
+{
+  background-color: #FFFFFF;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  margin: 0;
+}
+
+h1
+{
+  font-family: Arial, sans-serif;
+  color: #A30000;
+  font-size:100px;
+  margin: 20 auto;
+  width: 460px;
+}
+
+h2
+{
+  margin: 40 auto;
+  font-size:25px;
+  width: 460px;
+  text-align: center;
+}
+
+#tabPdfs
+{
+	margin-top: 20px;
+}
+
+#lists
+{
+  margin: auto;
+  width: 280px;
+}
+
+#blockLi
+{
+ float: left;
+}
+
+#formMAJ
+{
+  display: none;
+}
+
+#form-link
+{
+  text-decoration: none;
+}
+
+li
+{
+  margin: auto;
+  list-style-type: none;
+  border-bottom: 1px solid #C0C0C0;
+  border-left: 1px solid #C0C0C0;
+  border-right: 1px solid #C0C0C0;
+  border-radius: 0 0 15px 30px;
+  height: 24px;
+  list-style-type: none;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 180px;
+  padding-left: 5px;
+}
+
+li:first-child
+{
+  border-top: 1px solid #C0C0C0;
+}
+
+#one
+{
+	background-color: #A0A8FF;
+}
+
+#two
+{
+	background-color: #C4D0FF;
+}
+
+a
+{
+  text-decoration: none;
+  color: #01092D;
+  cursor: pointer;
+}
+
+a:hover
+{
+  color: #555555;
+}
+
+#images
+{
+  cursor: pointer;
+  width: 43px;
+  display: block;
+  float: left;
+}
+
+#img
+{
+  display: block;
+  height: 24px;
+  border-bottom: 1px solid #C0C0C0;
+  border-right: 1px solid #C0C0C0;
+  border-radius: 0 10px 0 18px;
+}
+
+#img:first-child
+{
+  border-top: 1px solid #C0C0C0;
+}
+
+p
+{
+  margin: auto;
+  width: 300px;
+}

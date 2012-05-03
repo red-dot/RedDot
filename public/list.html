@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="images/favicon.ico" >
+        
+        <link rel="stylesheet" href="css/list.css"/>
+        
+        
+        <script src="javascripts/localstorage.js"></script>
+        <script src="javascripts/list.js"></script>
+        <script src="jquery-1.7.1.min.js"></script>
+
+        <title>PDF List</title>
+    </head>
+    <body>
+        <h1><img src="images/reddot.png" alt="Red Dot"/></h1> 
+        <h2>List of your previously uploaded pdf</h2>
+	
+	<div id='tabPdfs'>
+
+	</div>
+	<script type="text/javascript">
+		
+		var div = document.getElementById('tabPdfs');
+		var pdfs = '@@tabPdf@@';		
+		var list = document.createElement('ul');
+		var block = document.createElement('div');
+		block.id = 'lists';
+		list.appendChild(block);
+		div.appendChild(list);
+		var tabPdf = pdfs.split(',');
+		if (tabPdf[0] == "" && tabPdf.length == 1)
+		{
+			div.innerHTML = "<p><strong>There are no PDFs on your account.</strong></p>";
+		}
+		else {
+		  var i = 0;
+		  while(tabPdf[i] == "")
+			 i++;
+			
+			var j = 0;
+			var k = i;
+			var divLi = document.createElement('div');
+			divLi.id = 'blockLi';
+			for (i++; i < tabPdf.length; i = i + 3)
+			{
+			  if(tabPdf[i-1] == "")
+			  {
+			    i-=2;
+			    continue;
+			  }
+				var li = document.createElement('li');
+				if(j%2)
+				  li.id = 'two';
+				else
+				  li.id = 'one';
+				  li.innerHTML = "<a id=\"listPdf\" title=\"Start presentation\" onclick=\"presentation('/" + tabPdf[i-1] +"')\">" + tabPdf[i]+"</a>";
+				divLi.appendChild(li);
+				j++;
+			}
+			block.appendChild(divLi);
+			var divImg = document.createElement('div');
+			divImg.id='images';
+			var num = 0;
+			for (k++; k < tabPdf.length; k = k+3)
+      {
+        if(tabPdf[k-1] == "")
+        {
+          k-=2;
+          continue;
+        }
+				var img = document.createElement('div');				
+        img.innerHTML = "<form id=\"formMAJ\" method=\"POST\" name=\"formDelete"+num+"\"><input id=\"MAJ\" name=\"DeleteId\" value=\""+ tabPdf[k-1] +"\"><input id=\"MAJ\" name=\"DeleteRev\" value=\""+ tabPdf[k+1] +"\"></form><form id=\"formMAJ\" method=\"POST\" name=\"formEdit"+num+"\"><input id=\"MAJ\" name=\"EditId\" value=\""+ tabPdf[k-1]+"\"><input id=\"MAJ\" name=\"EditTitle\" value=\""+ tabPdf[k] +"\"><input id=\"MAJ\" name=\"EditRev\" value=\""+ tabPdf[k+1] +"\"></form><img src=\"./images/edit.png\" onclick=\"Edit('"+tabPdf[k]+"', formEdit"+ num +");\" title=\"edit\" height=\"20\"/ ><img src=\"./images/delete.png\" title=\"delete\" onclick=\"Delete(formDelete"+num+");\" height=\"20\"/ >";
+				img.id = 'img';
+				divImg.appendChild(img);
+				num++;
+      }
+			block.appendChild(divImg);
+			
+		}
+
+    </script>
+       
+    </body>
+</html>

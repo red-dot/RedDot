@@ -1,0 +1,350 @@
+<html>
+    <head>    
+      <link rel="shortcut icon" href="images/favicon.ico" >
+      
+	  <title>Red Dot project</title>
+      <link rel="stylesheet" href="css/view.css"/>
+    </head>
+    <body id="body">
+		
+	<div id="chefPage">
+		<div><img id="toggleChefPage" src="./images/minus.gif" onclick="PAGE.toggleCurPageIndicator();"/></div>
+		<span id="curPage">Current page</span>
+		</br>
+		<span id="chefNumPage"> --   </span>
+
+	</div>
+    <div id="controls">
+		
+	  <div id="share">
+		<span>
+        Share: http://@@host@@/@@key@@
+        </span>
+      </div>
+      
+      
+      <div id="buttons">
+      
+      <button id="fullscreen" onclick="FULLSCREEN.toggle();" oncontextmenu="return false;">
+        <img src="./images/fullscreen.png" height="16"/> Toggle fullscreen
+      </button>
+      
+      <button id="previous" onclick="PDFView.page--;" oncontextmenu="return false;">
+        <img src="./images/go-up.png" height="16"/>
+        Previous
+      </button>
+
+      <button id="next" onclick="PDFView.page++;" oncontextmenu="return false;">
+        <img src="./images/go-down.png" height="16"/>
+        Next
+      </button>
+      
+      <button id="tools" onclick="DRAW.showTools();" oncontextmenu="return false;" disabled="true">
+		    <img src="./images/tools.png" height="16"/> Tools
+	    </button>
+      
+      <div id="toolsHidden" style="display: none">      
+		    <button id="draw" onclick="DRAW.activateDraw();"  oncontextmenu="return false;" disabled="true">
+			    <img src="./images/pencil.png" height="16"/> Draw on current page
+		    </button>
+		    
+		    <button id="erase" onclick="DRAW.eraseDraw(PDFView.page);"  oncontextmenu="return false;" disabled="true">
+			    <img src="./images/eraser.png" height="16"/>
+			    Erase
+		    </button>
+		    
+		    <button id="redDot" onclick="REDDOT.redDot();"oncontextmenu="return false;" disabled="true">
+			    <img src="./images/red_dot.png" height="16"/> Red Dot</button>
+
+	    </div>	
+      <div class="separator"></div>
+	  
+      <input type="number" id="pageNumber" onchange="PAGE.selectPage(Number(this.value));" value="1" size="4" min="1" />
+
+      <span>/</span>
+      <span id="numPages">--</span>
+
+      <div class="separator"></div>
+
+      <button id="zoomOut" title="Zoom Out" onclick="PDFView.zoomOut();" oncontextmenu="return false;">
+        <img src="./images/zoom-out.png" height="16"/>
+      </button>
+      <button id="zoomIn" title="Zoom In" onclick="PDFView.zoomIn();" oncontextmenu="return false;">
+        <img src="./images/zoom-in.png" height="16"/>
+      </button>
+
+      <div class="separator"></div>
+
+      <select id="scaleSelect" onchange="PDFView.parseScale(this.value);" oncontextmenu="return false;">
+        <option id="customScaleOption" value="custom"></option>
+        <option value="0.5">50%</option>
+        <option value="0.75">75%</option>
+        <option value="1">100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+        <option value="2">200%</option>
+        <option id="pageWidthOption" value="page-width">Page Width</option>
+        <option id="pageFitOption" value="page-fit">Page Fit</option>
+        <option id="pageAutoOption" value="auto" selected="selected">Auto</option>
+      </select>
+    </div>
+    </div>
+    <div id="errorWrapper" hidden='true'>
+      <div id="errorMessageLeft">
+        <span id="errorMessage"></span>
+        <button id="errorShowMore" onclick="" oncontextmenu="return false;">
+          More Information
+        </button>
+        <button id="errorShowLess" onclick="" oncontextmenu="return false;" hidden='true'>
+          Less Information
+        </button>
+      </div>
+      <div id="errorMessageRight">
+        <button id="errorClose" oncontextmenu="return false;">
+          Close
+        </button>
+      </div>
+      <div class="clearBoth"></div>
+      <textarea id="errorMoreInfo" hidden='true' readonly="readonly"></textarea>
+    </div>
+
+    <div id="sidebar">
+      <div id="sidebarBox">
+        <div id="pinIcon" onClick="PDFView.pinSidebar()">
+        </div>
+        <div id="sidebarScrollView">
+          <div id="sidebarView"></div>
+        </div>
+        <div id="outlineScrollView" hidden='true'>
+          <div id="outlineView"></div>
+        </div>
+        <div id="sidebarControls">
+          <button id="thumbsSwitch" title="Show Thumbnails" onclick="PDFView.switchSidebarView('thumbs')" data-selected>
+            <img src="./images/nav-thumbs.png" height="16" alt="Thumbs" />
+          </button>
+          <button id="outlineSwitch" title="Show Document Outline" onclick="PDFView.switchSidebarView('outline')" disabled>
+            <img src="./images/nav-outline.png" height="16" alt="Document Outline" />
+          </button>
+        </div>
+      </div>
+    </div>
+   
+    <div id="chat">
+      <div id="chatBox">
+        <div id="chatPinIcon" onClick="CHAT.pinChatSideBar();">
+        </div>
+        <div id="choosePseudo">
+			Name
+			<input id="pseudo" type="text" disabled="true"/>
+        </div>
+        <div id="people">
+			<span>People in room</span>
+			<div id="peopleConnected">				
+			</div>
+			<span>Click on nickname to nominate conference leader</span>
+        </div>
+        <div id="history">
+			<textarea id="chatHistory" readonly="readonly"></textarea>
+        </div>
+        <div id="toSay">
+			Say: <input id="textToSay" type="text" onkeypress="CHAT.send(event)"/>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingBox">
+        <div id="loading">Loading... 0%</div>
+        <div id="loadingBar"><div class="progress"></div></div>
+    </div>
+    <div id="viewer"></div>
+    
+	<script type="text/javascript" src="./javascripts/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="./javascripts/localstorage.js"></script>
+	<script type="text/javascript" src="./javascripts/chat.js"></script>
+	<script type="text/javascript" src="./javascripts/pdf.js"></script>
+	<script type="text/javascript" src="./javascripts/viewer.js"></script>
+	<script type="text/javascript" src="./javascripts/page.js"></script>
+	<script type="text/javascript" src="./javascripts/draw.js"></script>
+	<script type="text/javascript" src="./javascripts/reddot.js"></script>
+	<script type="text/javascript" src="./javascripts/fullscreen.js"></script>
+	  
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script type="text/javascript">
+
+		document.title = 'Red-Dot project';
+		
+		PDFJS.workerSrc = './javascripts/pdf.js';
+		PDFJS.disableTextLayer = true;	
+		
+		var socket = io.connect('http://@@host@@');
+		
+		var key = '@@key@@';
+		
+		var token;
+		
+		var kDefaultURL = '@@key@@.pdf';
+		
+		if(storage && storage.getItem('pseudo') != null && storage.getItem('isConnected') == 'true')
+		{
+			socket.emit('key', {key: key, pseudo: storage.getItem('pseudo'), isRegister: true});
+		}
+		else if(storage && storage.getItem('pseudo') != null && storage.getItem('key') == key)
+		{
+			socket.emit('key', {key: key, pseudo: storage.getItem('pseudo'), isRegister: false});
+		}
+		else
+		{
+			socket.emit('key', {key: key, pseudo: null, isRegister: false});
+		}
+
+		socket.on('savePage', function (data)
+		{	
+			PAGE.selectPage(data.page);
+				
+			PAGE.updateCurPageIndicator(PDFView.page);
+				
+			PAGE.updateCurPageThumbnail();
+		});
+
+		socket.on('show', function (data)
+		{	
+			if(token == null)
+			{	
+				PAGE.selectPage(data.page);
+				
+				PAGE.updateCurPageIndicator(data.page);
+				
+				PAGE.updateCurPageThumbnail();
+			
+			}
+		});
+		
+		socket.on('updateRoom', function (data)
+		{	
+			CHAT.updateRoom(data.room);
+		});
+		
+		socket.on('setName', function (data)
+		{
+			document.getElementById("pseudo").value = data.name;
+			CHAT.pseudo = data.name;
+
+			if(storage)
+			{
+				storage.setItem('pseudo', data.name);
+				storage.setItem('key', key);
+			}
+		});
+		
+		socket.on('setToken', function (data)
+		{
+			token = data.token;
+			
+			if(storage)
+			{
+				storage.setItem('token', token);
+				storage.setItem('key', key);
+			}
+			
+			document.getElementById("tools").disabled = false;
+			document.getElementById("draw").disabled = false;
+			document.getElementById("erase").disabled = false;
+			document.getElementById("redDot").disabled = false;
+			
+			var controls = document.getElementById("controls");
+			controls.style.backgroundColor = "#FF9900";
+			
+			var chefPage = document.getElementById("chefPage");
+			chefPage.style.backgroundColor = "#FF9900";
+			
+			
+			alert("You are now conference leader");
+		});
+		
+		socket.on('eraseToken', function (data)
+		{
+			token = null;
+			
+			if(storage)
+			{
+				storage.removeItem('token');
+				storage.removeItem('key');
+			}
+			
+			$("#toolsHidden").hide("slow");
+			
+			document.getElementById("tools").disabled = true;
+			document.getElementById("draw").disabled = true;
+			document.getElementById("erase").disabled = true;
+			document.getElementById("redDot").disabled = true;
+			
+			var controls = document.getElementById("controls");
+			controls.style.backgroundColor = "#5EA3FF";
+			
+			var chefPage = document.getElementById("chefPage");
+			chefPage.style.backgroundColor = "#5EA3FF";
+		});
+		
+		socket.on('chat', function (data)
+		{
+			CHAT.write(data.chat);
+		});
+		
+		socket.on('draw', function (data)
+		{
+			DRAW.point(data.page, data.x, data.y);
+		});
+		
+		socket.on('stopdraw', function (data)
+		{
+			DRAW.ctxRecvPoint = null;
+			
+			PAGE.createThumbnail(data.page);
+			PAGE.updateCurPageThumbnail();
+		});
+		
+		socket.on('redDot', function (data)
+		{
+			REDDOT.pointRouge(data.page, data.x, data.y);
+		});
+		
+		socket.on('stopRedDot', function (data)
+		{
+			REDDOT.stopPointRouge();
+		});
+		
+		socket.on('erase', function (data)
+		{
+			DRAW.eraseDraw(data.page);
+		});
+		
+		socket.on('historyDraw', function (data)
+		{
+			
+			//if(token == null)
+			//{
+				for (var i = 1; i < data.history.length; i++)
+				{
+					if (data.history[i] == null)
+						continue
+					else
+						PAGE.historyDraw[i] = new Array;
+					for (var j = 0; j < data.history[i].length; j++)
+					{
+						PAGE.historyDraw[i][j] = data.history[i][j];
+					}
+				}
+			//}
+					
+	
+		});
+		
+		socket.on('error', function (data)
+		{
+			alert(data.error);
+		});	
+	  </script>
+	  
+  </body>
+</html>

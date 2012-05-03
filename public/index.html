@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link rel="shortcut icon" href="images/favicon.ico" >
+        
+        <link rel="stylesheet" href="css/index.css"/>
+        
+        <script src="javascripts/loading.js"></script>
+        <script src="javascripts/localstorage.js"></script>
+        <script src="javascripts/signin.js"></script>
+        <script src="javascripts/jquery-1.7.1.min.js"></script>
+
+        <title>Red Dot project</title>
+    </head>
+    <body onload="isConnected(); verifIdHidden();">
+        <h1><img src="images/reddot.png" alt="Red Dot"/></h1> 
+        <h2>Realtime pdf slideshow over the web</h2>
+        <div class="signin">
+            <a id="login-link" class="login-link" onclick="displayForm()">Sign in</a>
+            <div class="login-form" style="display: none">
+                <form id="account-form" method="POST" name="account">
+                    <input id="login-hidden" style="display: none" name="status" value="@@status@@">
+                    <input id="login-pseudo" class="element-form" type="text" tabindex="1" name="loginPseudo" value="Login" onchange="storage.setItem('pseudo',this.value);" onfocus="inputFocus('Login','login-pseudo')" onblur="inputBlur('Login', 'login-pseudo')">
+                    <input id="login-password" class="element-form" type="password" tabindex="2" name="loginPassword" value="Password" onfocus="inputFocus('Password', 'login-password')" onblur="inputBlur('Password', 'login-password')">
+                    <a id="login-submit" class="button-form" tabindex="4" class="button" onclick="login()">Sign in</a>
+                    <a id="create-submit" class="button-form" tabindex="5" class="button" onclick="createAccount()">Create an account</a>
+                </form>
+            </div>
+        </div> 
+        <div class="form">
+            <div class="position">
+                <form method="POST" name="file" enctype="multipart/form-data">
+                    <input type="hidden" name="key" value="@@key@@">
+                    <input name="pdf" type="file" onclick="eraseFile()" onchange="afficher_cacher(testExtension(document.forms[1]))" value="Upload">
+                    <div id="file" type="hidden">@@file@@</div>
+                    <div id="finish" type="hidden">Upload done</div>
+                </form>
+                <div id="loading" style="display: none"></div>
+                <div id="upload" style="display: none">
+                    <a  class="upload" onclick="storeUpload('/@@token@@', '@@key@@')">Start presentation</a>
+                </div>
+            </div>
+        </div>
+        <p class="info">This project uses <a href="http://andreasgal.com/2011/06/15/pdf-js/">pdf.js</a>, <a href="http://nodejs.org/">node.js</a>, and <a href="http://socket.io/">socket.io</a> to deliver realtime slideshows remotely.</p>
+        <script>verifLogin()</script>
+        <script>verifPDF('@@file@@')</script>
+
+    </body>
+</html>
