@@ -36,7 +36,7 @@ dbPdf.exists(function (err, exists) {
 db.save('_design/users', {
 	all: {
 		map: function (doc) {
-			if (doc.name) emit(doc.name, doc);
+		if (doc.name) emit(doc.name, doc);
 		}
 	}
 });
@@ -167,10 +167,10 @@ var server = http.createServer(function(req, res)
 									  {
 								    	for(var j in result[cle][k])
 								    	{
-														  if(result[cle][k][j] == loginUser)
-														  {
-															  tabPdf[cle] = new Array (result[cle][k]['_id'], result[cle][k]['title'], result[cle][k]['_rev']);
-														  }
+											  if(result[cle][k][j] == loginUser)
+											  {
+												  tabPdf[cle] = new Array (result[cle][k]['_id'], result[cle][k]['title'], result[cle][k]['_rev']);
+											  }
 								    	}
 									  }		
 							   	}
